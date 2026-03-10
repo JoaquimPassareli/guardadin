@@ -2,6 +2,7 @@ import { useRef } from 'react';
 import { Download, Upload, DollarSign } from 'lucide-react';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { ThemeToggle } from '@/components/ThemeToggle/ThemeToggle';
 import { TransactionDialog } from '@/components/TransactionForm/TransactionDialog';
 import { exportTransactions, importTransactions, fetchDollarRate } from '@/services/apiService';
@@ -54,33 +55,62 @@ export function Navbar({ transactions, onAdd, onImport }: NavbarProps) {
         </div>
 
         <div className="flex items-center gap-2">
-          <Button
-            variant="ghost"
-            size="icon"
-            title="Cotação do dólar"
-            onClick={handleFetchDollar}
-          >
-            <DollarSign className="h-4 w-4" />
-          </Button>
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={handleFetchDollar}
+                >
+                  <DollarSign className="h-4 w-4" />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent side="bottom">
+                <p>Cotação do Dólar</p>
+              </TooltipContent>
+            </Tooltip>
 
-          <Button
-            variant="ghost"
-            size="icon"
-            title="Exportar JSON"
-            onClick={handleExport}
-            disabled={transactions.length === 0}
-          >
-            <Download className="h-4 w-4" />
-          </Button>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={handleExport}
+                  disabled={transactions.length === 0}
+                >
+                  <Download className="h-4 w-4" />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent side="bottom">
+                <p>Exportar Transações</p>
+              </TooltipContent>
+            </Tooltip>
 
-          <Button
-            variant="ghost"
-            size="icon"
-            title="Importar JSON"
-            onClick={handleImportClick}
-          >
-            <Upload className="h-4 w-4" />
-          </Button>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={handleImportClick}
+                >
+                  <Upload className="h-4 w-4" />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent side="bottom">
+                <p>Importar Transações</p>
+              </TooltipContent>
+            </Tooltip>
+
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <ThemeToggle />
+              </TooltipTrigger>
+              <TooltipContent side="bottom">
+                <p>Alternar Tema</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
 
           <input
             ref={fileInputRef}
@@ -89,8 +119,6 @@ export function Navbar({ transactions, onAdd, onImport }: NavbarProps) {
             className="hidden"
             onChange={handleFileChange}
           />
-
-          <ThemeToggle />
 
           <TransactionDialog onAdd={onAdd} />
         </div>
