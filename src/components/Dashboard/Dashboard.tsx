@@ -80,8 +80,7 @@ export function Dashboard({ transactions }: DashboardProps) {
                 : 'text-orange-600 dark:text-orange-400'
             }`}
           >
-            R$ {formatCurrency(Math.abs(saldo))}
-            {saldo < 0 && <span className="ml-1 text-lg">-</span>}
+            {saldo < 0 && <span>- </span>}R$ {formatCurrency(Math.abs(saldo))}
           </div>
           <div className="mt-1 flex items-center gap-2">
             <Badge variant="secondary" className="text-xs">
